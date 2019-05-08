@@ -4,7 +4,7 @@
 
 如你所看，这个项目还在萌芽当中，项目的想法来源于`JCSprout`。旨在记录每天学习情况和分享自己的学习经历。
 <br>
-然而这不是本文的重点，重点是`This is the beginning of you and me`。
+`This is the beginning of you and me`。
 
 ## 有什么
 
@@ -29,5 +29,5 @@
 ## 声明
 
 > 很感谢[JCSprout](https://github.com/crossoverJie/JCSprout)这个项目的启发和帮助
- 
+
 !> 文中有措辞或者是观点错误的地方（肯定有的），一定要联系我[2254553781@qq.com](mailto:2254553781@qq.com)

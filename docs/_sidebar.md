@@ -1,6 +1,6 @@
 - 集合
 
-  - ArrayList/Vector
+  - [ArrayList/Vector](collections/ArrayList.md)
   - LinkedList
   - HashMap
   - HashSet
