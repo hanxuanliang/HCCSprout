@@ -32,36 +32,92 @@ public class ArrayList<E> extends AbstractList<E>
 
 ```java
 /**
- * Default initial capacity.
+ * 初始化默认容量
  */
 private static final int DEFAULT_CAPACITY = 10;
 
 /**
- * Shared empty array instance used for empty instances.
+ * 指定该ArrayList容量为0时，返回该空数组
  */
 private static final Object[] EMPTY_ELEMENTDATA = {};
 
 /**
- * Shared empty array instance used for default sized empty instances. We
- * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when
- * first element is added.
+ * 当调用无参构造方法，返回的是该数组。刚创建一个ArrayList 时，其内数据量为0。
+ * 它与EMPTY_ELEMENTDATA的区别就是：该数组是默认返回的（调用无参构造方法），
+ * 而后者是在用户指定容量为0时返回
  */
 private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 
 /**
- * The array buffer into which the elements of the ArrayList are stored.
- * The capacity of the ArrayList is the length of this array buffer. Any
- * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
- * will be expanded to DEFAULT_CAPACITY when the first element is added.
+ * 保存添加到ArrayList中的元素。ArrayList的容量就是该数组的长度。
+ * 该值为DEFAULTCAPACITY_EMPTY_ELEMENTDATA 时，当第一次添加元素进入ArrayList中时，
+ * 数组将扩容值DEFAULT_CAPACITY。
+ * 被标记为transient，在对象被序列化的时候不会被序列化。
  */
 transient Object[] elementData; // non-private to simplify nested class access
 
 /**
- * The size of the ArrayList (the number of elements it contains).
- *
+ * ArrayList的实际大小（数组包含的元素个数）
  * @serial
  */
 private int size;
+```
+
+但是**elementData被标记为transient，那么它的序列化和反序列化是如何实现的呢？**
+
+### 构造方法
+
+#### **ArrayList( int initialCapacity)**
+
+```java
+ /**
+  * 构造一个指定初始化容量为capacity的空ArrayList。
+  *
+  * @param  initialCapacity  ArrayList的指定初始化容量
+  * @throws IllegalArgumentException  如果ArrayList的指定初始化容量为负。
+  */
+ public ArrayList(int initialCapacity) {
+	if (initialCapacity > 0) {
+		this.elementData = new Object[initialCapacity];
+	} else if (initialCapacity == 0) {
+		this.elementData = EMPTY_ELEMENTDATA;
+	} else {
+        throw new IllegalArgumentException("Illegal Capacity: "+ initialCapacity);
+	}
+  }
+```
+
+#### **ArrayList()**
+
+```java
+ /**
+  * 构造一个初始容量为 10 的空列表。
+  */
+ public ArrayList() {
+	this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+ }
+```
+
+#### **ArrayList(Collection<? extends E> c)**
+
+```java
+/**
+ * 构造一个包含指定 collection 的元素的列表，这些元素是按照该 collection 的迭代器返回它们的顺序排列的。
+ *
+ * @param c 其元素将放置在此列表中的 collection
+ * @throws NullPointerException 如果指定的 collection 为 null
+ */
+ public ArrayList(Collection<? extends E> c) {
+	elementData = c.toArray();
+	if ((size = elementData.length) != 0) {
+		// c.toArray might (incorrectly) not return Object[] (see 6260652)
+		if (elementData.getClass() != Object[].class)
+			elementData = Arrays.copyOf(elementData, size, Object[].class);
+	} else {
+		// replace with empty array.
+		this.elementData = EMPTY_ELEMENTDATA;
+	}
+ }
 ```
 
 
